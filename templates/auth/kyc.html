@@ -70,24 +70,24 @@
             {% if current_user.verified %}
                 <div class="row justify-content-center">
                     <div class="col-md-6 content-box low">
-                        <h4 class="card-title text-center">Change Allowed Data</h4>
+                        <h4 class="card-title text-center">Change Enabled Attributes</h4>
 
                         <form method="POST" action="{{ url_for('auth._kyc') }}" enctype="multipart/form-data">
-                            {{ allowed_data_form.hidden_tag() }}
+                            {{ enabled_attributes_form.hidden_tag() }}
                             <div class="form-group">
-                                {{ allowed_data_form.name.label }}
-                                {{ allowed_data_form.name(class="form-control", placeholder="Enter your name") }}
+                                {{ enabled_attributes_form.name.label }}
+                                {{ enabled_attributes_form.name(class="form-control") }}
 
-                                {{ allowed_data_form.age.label }}
-                                {{ allowed_data_form.age(class="form-control", placeholder="Enter your age") }}
+                                {{ enabled_attributes_form.age.label }}
+                                {{ enabled_attributes_form.age(class="form-control") }}
 
-                                {{ allowed_data_form.location.label }}
-                                {{ allowed_data_form.location(class="form-control", placeholder="Enter your location") }}
+                                {{ enabled_attributes_form.location.label }}
+                                {{ enabled_attributes_form.location(class="form-control") }}
 
-                                {{ allowed_data_form.id_number.label }}
-                                {{ allowed_data_form.id_number(class="form-control", placeholder="Enter your ID number") }}
+                                {{ enabled_attributes_form.id_number.label }}
+                                {{ enabled_attributes_form.id_number(class="form-control") }}
 
-                                {{ allowed_data_form.recaptcha }}
+                                {{ enabled_attributes_form.recaptcha }}
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>

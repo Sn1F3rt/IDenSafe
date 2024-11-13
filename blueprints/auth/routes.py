@@ -13,10 +13,10 @@ from utils.crud import (
     update_kyc_info,
     update_username,
     get_user_by_address,
-    get_allowed_attributes,
-    set_allowed_attributes,
+    get_enabled_attributes,
+    set_enabled_attributes,
 )
-from utils.forms import KYCForm, UsernameForm, AllowedAttributesForm
+from utils.forms import KYCForm, UsernameForm, EnabledAttributesForm
 
 from . import auth_bp
 
@@ -167,31 +167,35 @@ def _kyc():
         return redirect(url_for("auth._kyc"))
 
     if current_user.verified:
-        allowed_data_form = AllowedAttributesForm()
-        allowed_attributes = get_allowed_attributes(current_user.address)
+        enabled_attributes_form = EnabledAttributesForm()
 
-        if not all(allowed_attributes):
-            allowed_data_form.name.default = int(allowed_attributes[0])
-            allowed_data_form.age.default = int(allowed_attributes[1])
-            allowed_data_form.location.default = int(allowed_attributes[2])
-            allowed_data_form.id_number.default = int(allowed_attributes[3])
-            allowed_data_form.process()
+        if enabled_attributes_form.validate_on_submit():
+            print(enabled_attributes_form.name.data)
+            name = bool(int(enabled_attributes_form.name.data))
+            age = bool(int(enabled_attributes_form.age.data))
+            location = bool(int(enabled_attributes_form.location.data))
+            id_number = bool(int(enabled_attributes_form.id_number.data))
 
-        if allowed_data_form.validate_on_submit():
-            name = bool(int(allowed_data_form.name.data))
-            age = bool(int(allowed_data_form.age.data))
-            location = bool(int(allowed_data_form.location.data))
-            id_number = bool(int(allowed_data_form.id_number.data))
-
-            set_allowed_attributes(
+            set_enabled_attributes(
                 current_user.address, name, age, location, id_number
             )
 
             flash("Allowed attributes updated successfully.", "success")
             return redirect(url_for("auth._kyc"))
 
+        enabled_attributes = get_enabled_attributes(current_user.address)
+
+        if not all(enabled_attributes):
+            enabled_attributes_form.name.default = int(enabled_attributes[0])
+            enabled_attributes_form.age.default = int(enabled_attributes[1])
+            enabled_attributes_form.location.default = int(enabled_attributes[2])
+            enabled_attributes_form.id_number.default = int(enabled_attributes[3])
+            enabled_attributes_form.process()
+
         return render_template(
-            "auth/kyc.html", kyc_form=kyc_form, allowed_data_form=allowed_data_form
+            "auth/kyc.html",
+            kyc_form=kyc_form,
+            enabled_attributes_form=enabled_attributes_form,
         )
 
     return render_template("auth/kyc.html", kyc_form=kyc_form)

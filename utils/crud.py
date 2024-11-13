@@ -324,20 +324,20 @@ def verify_info(
     return True if user else False
 
 
-def get_allowed_attributes(address: str):
+def get_enabled_attributes(address: str):
     session = create_session()
     user = session.query(User).filter(User.address == address).first()
     session.close()
 
     return (
-        user.name_allowed,
-        user.age_allowed,
-        user.location_allowed,
-        user.id_number_allowed,
+        user.name_kyc_enabled,
+        user.age_kyc_enabled,
+        user.location_kyc_enabled,
+        user.id_number_kyc_enabled,
     )
 
 
-def set_allowed_attributes(
+def set_enabled_attributes(
     address: str,
     name: bool,
     age: bool,
@@ -347,17 +347,17 @@ def set_allowed_attributes(
     session = create_session()
     user = session.query(User).filter(User.address == address).first()
 
-    user.name_allowed = name
-    user.age_allowed = age
-    user.location_allowed = location
-    user.id_number_allowed = id_number
+    user.name_kyc_enabled = name
+    user.age_kyc_enabled = age
+    user.location_kyc_enabled = location
+    user.id_number_kyc_enabled = id_number
 
     session.commit()
     session.refresh(user)
     session.close()
 
 
-def check_allowed_attribute(address: str, attribute: str, value: str):
+def check_enabled_attribute(address: str, attribute: str, value: str):
     if not value:
         return True
 
@@ -365,4 +365,4 @@ def check_allowed_attribute(address: str, attribute: str, value: str):
     user = session.query(User).filter(User.address == address).first()
     session.close()
 
-    return getattr(user, f"{attribute}_allowed")
+    return getattr(user, f"{attribute}_kyc_enabled")

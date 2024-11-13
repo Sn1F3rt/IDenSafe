@@ -60,7 +60,7 @@ class KYCForm(FlaskForm):
     recaptcha = RecaptchaField()
 
 
-class AllowedAttributesForm(FlaskForm):
+class EnabledAttributesForm(FlaskForm):
     name = RadioField(
         "Name",
         choices=[(1, "Enabled"), (0, "Disabled")],

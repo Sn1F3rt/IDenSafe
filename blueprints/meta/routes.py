@@ -1,7 +1,7 @@
 from flask import request, render_template
 
 from factory import w3
-from utils.crud import verify_info, get_user_by_address, check_allowed_attribute
+from utils.crud import verify_info, get_user_by_address, check_enabled_attribute
 
 from . import meta_bp
 
@@ -38,7 +38,7 @@ def _verify():
 
     if not all(
         [
-            check_allowed_attribute(address, attr, value)
+            check_enabled_attribute(address, attr, value)
             for attr, value in [
                 ("name", name),
                 ("age", age),
