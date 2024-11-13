@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>App | IDenSafe</title>
+    {% include "header.html" %}
+</head>
+
+<body class="light-theme">
+    <div class="container mt-5">
+        {% include "navbar.html" %}
+
+        <div class="container mb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6 content-box text-center">
+                    <h3 class="card-title">Hello, <code>{{ current_user.username }}</code>!</h3>
+                    <h4 class="card-title">Your ETH Address: <code>{{ current_user.address }}</code></h4>
+                    <br>
+                    <a href="{{ url_for('auth._settings') }}" class="btn btn-secondary">Settings</a>
+                    <a href="{{ url_for('auth._kyc') }}" class="btn btn-warning">{{ "Update/Revoke" if current_user.verified else "Verify" }} KYC</a>
+                    {% if current_user.admin %}
+                    <a href="{{ url_for('admin._index') }}" class="btn btn-danger">Admin Panel</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+
+    {% include "scripts.html" %}
+
+</body>
+
+</html>

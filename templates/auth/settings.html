@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Settings | IDenSafe</title>
+    {% include "header.html" %}
+</head>
+
+<body class="light-theme">
+    <div class="container mt-5">
+        {% include "navbar.html" %}
+
+        <div class="container mb-5">
+            <div class="row mt-5">
+                <div class="col-md-3 mx-auto">
+                    <div class="alert alert-info text-center" role="alert">
+                        <strong>Current username:</strong> {{ current_user.username }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 content-box low">
+                    <h4 class="card-title text-center">Change Username</h4>
+                    <form method="POST" action="{{ url_for('auth._settings') }}" >
+                        {{ username_form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ username_form.username(class="form-control", placeholder="Enter username") }}
+                            {{ username_form.recaptcha }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+
+    {% include "scripts.html" %}
+
+</body>
+
+</html>

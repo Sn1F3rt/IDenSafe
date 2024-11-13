@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>IDenSafe</title>
+    {% include "header.html" %}
+</head>
+
+<body class="light-theme">
+    <div class="container mt-5">
+        {% include "navbar.html" %}
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2>API Documentation</h2>
+                <hr>
+
+                <h3>Endpoint: <code>/verify</code></h3>
+                <p><strong>Method:</strong> GET</p>
+                <p><strong>Description:</strong> Verifies the KYC information based on the provided address and at least one additional field.</p>
+
+                <h4>Parameters:</h4>
+                <ul>
+                    <li><strong>address</strong> (string, required): Ethereum address of the user.</li>
+                    <li><strong>name</strong> (string, optional): Name of the user.</li>
+                    <li><strong>age</strong> (integer, optional): Age of the user.</li>
+                    <li><strong>location</strong> (string, optional): Location of the user.</li>
+                    <li><strong>id_number</strong> (string, optional): ID number of the user.</li>
+                </ul>
+                <p><em>Note:</em> At least one of the fields <code>name</code>, <code>age</code>, <code>location</code>, or <code>id_number</code> must be provided along with <code>address</code>.</p>
+
+                <h4>Response:</h4>
+                <p>The response is a JSON object with the following structure:</p>
+                <pre><code>{
+    "status": "success" | "error",
+    "result": true | false
+}</code></pre>
+                <p><strong>status</strong>: Returns <code>success</code> if the request is processed correctly, or <code>error</code> if there is a validation or server issue.</p>
+                <p><strong>result</strong>: A boolean value indicating whether the verification was successful.</p>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+
+    {% include "scripts.html" %}
+
+</body>
+
+</html>

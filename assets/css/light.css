@@ -1,0 +1,38 @@
+input + .slider {
+    background-color: goldenrod;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px goldenrod;
+}
+
+body.light-theme {
+    background-color: whitesmoke;
+    color: #343a40;
+}
+
+body.light-theme .alert-info {
+    background-color: antiquewhite;
+}
+
+body.light-theme .content-box {
+    background-color: antiquewhite;
+}
+
+body.light-theme .admin-table {
+    background-color: antiquewhite;
+}
+
+body.light-theme .form-control {
+    background-color: #f6f6f6;
+}
+
+body.light-theme .btn-primary {
+    background-color: goldenrod;
+    border-color: goldenrod;
+}
+
+body.light-theme .btn-primary:hover {
+    background-color: darkgoldenrod;
+    border-color: darkgoldenrod;
+}

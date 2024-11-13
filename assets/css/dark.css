@@ -1,0 +1,56 @@
+input:checked + .slider {
+    background-color: #704264;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #704264;
+}
+
+
+body.dark-theme code {
+    color: #e83e8c!important;
+}
+
+body.dark-theme {
+    background-color: #393646;
+    color: white;
+}
+
+body.dark-theme .alert-info {
+    background-color: #4F4557;
+    color: white;
+}
+
+body.dark-theme .content-box {
+    background-color: #4F4557;
+}
+
+body.dark-theme .admin-table {
+    background-color: #4F4557;
+    color: white;
+}
+
+body.dark-theme .form-control {
+    background-color: #393646;
+    color: white;
+}
+
+body.dark-theme .btn-primary {
+    background-color: #704264;
+    border-color: #704264;
+}
+
+body.dark-theme .btn-primary:hover {
+    background-color: #49243E;
+    border-color: #49243E;
+}
+
+body.dark-theme .btn-success {
+    background-color: darkgreen;
+    border-color: darkgreen;
+}
+
+body.dark-theme .btn-success:hover {
+    background-color: green;
+    border-color: green;
+}

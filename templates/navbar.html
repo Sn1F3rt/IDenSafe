@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-md-6">
+        <a href="{{ url_for('meta._index') }}" class="header-link"><h1 class="mb-4">IDenSafe</h1></a>
+    </div>
+    <div class="col-md-6 text-right">
+        {% include "theme-toggle.html" %}
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('meta._index') }}" title="Home" class="btn btn-primary"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ url_for('app._index') }}" title="Dashboard" class="btn btn-warning"><i class="fa-solid fa-user"></i></a>
+            {% if current_user.admin %}
+                <a href="{{ url_for('admin._index') }}" title="Admin" class="btn btn-danger"><i class="fa-solid fa-crown"></i></a>
+            {% endif %}
+            <a href="{{ url_for('auth._settings') }}" title="Settings" class="btn btn-secondary"><i class="fa-solid fa-gear"></i></a>
+            <a href="{{ url_for('auth._kyc') }}" title="KYC" class="btn btn-warning"><i class="fa-solid fa-id-card"></i></a>
+            <button onclick="logout()" class="btn btn-danger">Logout</button>
+        {% else %}
+            <button onclick="login()" class="btn btn-primary">Login with MetaMask</button>
+        {% endif %}
+    </div>
+</div>

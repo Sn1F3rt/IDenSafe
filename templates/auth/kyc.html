@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Settings | IDenSafe</title>
+    {% include "header.html" %}
+</head>
+
+<body class="light-theme">
+    <div class="container mt-5">
+        {% include "navbar.html" %}
+
+        <div class="container mb-5">
+            <div class="row mt-5">
+                <div class="col-md-3 mx-auto">
+                    <div class="alert alert-info text-center" role="alert">
+                        <strong>Current KYC Status: <br>
+                        {% if current_user.verified %}
+                            <p class="text-success">Verified</p>
+                        {% elif current_user.id_number %}
+                            <p class="text-warning">Pending Approval</p>
+                        {% else %}
+                            <p class="text-danger">Not Verified</p>
+                        {% endif %}
+                        </strong>
+                        {% if current_user.verified %}
+                            <p>(Verified since {{ current_user.verified_at.strftime('%d %b %Y') }})</p>
+                        {% endif %}
+                        {%  if current_user.id_number %}
+                            <a href="{{ url_for('auth._kyc_revoke') }}" class="btn btn-danger">Revoke KYC</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 content-box low">
+                    <h4 class="card-title text-center">{{ "Update" if current_user.verified else "Add" }} KYC Information</h4>
+
+                    <form method="POST" action="{{ url_for('auth._kyc') }}" enctype="multipart/form-data">
+                        {{ kyc_form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ kyc_form.name.label }}
+                            {{ kyc_form.name(class="form-control", placeholder="Enter your name", disabled=not (not current_user.id_number)) }}
+
+                            {{ kyc_form.age.label }}
+                            {{ kyc_form.age(class="form-control", placeholder="Enter your age", disabled=not (not current_user.id_number)) }}
+
+                            {{ kyc_form.location.label }}
+                            {{ kyc_form.location(class="form-control", placeholder="Enter your location", disabled=not (not current_user.id_number)) }}
+
+                            {{ kyc_form.id_number.label }}
+                            {{ kyc_form.id_number(class="form-control", placeholder="Enter your ID number", disabled=not (not current_user.id_number)) }}
+
+                            {{ kyc_form.id_front.label }}
+                            {{ kyc_form.id_front(class="form-control", placeholder="Upload your ID front", disabled=not (not current_user.id_number)) }}
+
+                            {{ kyc_form.id_back.label }}
+                            {{ kyc_form.id_back(class="form-control", placeholder="Upload your ID back", disabled=not (not current_user.id_number)) }}
+
+                            {{ kyc_form.recaptcha }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" {% if current_user.id_number %}disabled{% endif %}>Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if current_user.verified %}
+                <div class="row justify-content-center">
+                    <div class="col-md-6 content-box low">
+                        <h4 class="card-title text-center">Change Allowed Data</h4>
+
+                        <form method="POST" action="{{ url_for('auth._kyc') }}" enctype="multipart/form-data">
+                            {{ allowed_data_form.hidden_tag() }}
+                            <div class="form-group">
+                                {{ allowed_data_form.name.label }}
+                                {{ allowed_data_form.name(class="form-control", placeholder="Enter your name") }}
+
+                                {{ allowed_data_form.age.label }}
+                                {{ allowed_data_form.age(class="form-control", placeholder="Enter your age") }}
+
+                                {{ allowed_data_form.location.label }}
+                                {{ allowed_data_form.location(class="form-control", placeholder="Enter your location") }}
+
+                                {{ allowed_data_form.id_number.label }}
+                                {{ allowed_data_form.id_number(class="form-control", placeholder="Enter your ID number") }}
+
+                                {{ allowed_data_form.recaptcha }}
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+
+    {% include "scripts.html" %}
+
+</body>
+
+</html>

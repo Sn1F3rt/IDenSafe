@@ -1,0 +1,163 @@
+<script src="/assets/js/fontawesome.all.js"></script>
+<script src="/assets/js/jquery.slim.min.js"></script>
+<script src="/assets/js/noty.min.js"></script>
+<script src="/assets/js/popper.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+
+<script>
+    const themeToggle = document.getElementById("theme-switch");
+    const themeLink = document.getElementById("theme-link");
+
+    if (localStorage.getItem("theme") === "dark") {
+        enableDarkTheme();
+    }
+
+    themeToggle.addEventListener("change", () => {
+        if (themeToggle.checked) {
+            enableDarkTheme();
+        } else {
+            enableLightTheme();
+        }
+    });
+
+    function enableDarkTheme() {
+        themeToggle.checked = true;
+        themeLink.href = '/assets/css/dark.css';
+        document.body.classList.remove('light-theme');
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark');
+    }
+
+    function enableLightTheme() {
+        themeLink.href = '/assets/css/light.css';
+        document.body.classList.remove('dark-theme');
+        document.body.classList.add('light-theme');
+        localStorage.setItem('theme', 'light');
+    }
+</script>
+
+<script>
+    const provider = window.ethereum;
+    const BACKEND_ADDR_AUTH = "http://localhost:5000/auth";
+
+    let accounts = null;
+    let message = null;
+    let signature = null;
+
+    async function connectWallet() {
+        accounts = await provider
+            .request({ method: "eth_requestAccounts" })
+            .catch((err) => {
+        if (err.code === 4001) {
+            new Noty({
+                type: "error",
+                theme: "bootstrap-v4",
+                layout: "topCenter",
+                text: "Please connect to MetaMask.",
+                timeout: 3000
+            }).show();
+        } else {
+            new Noty({
+                type: "error",
+                theme: "bootstrap-v4",
+                layout: "topCenter",
+                text: "An error occurred while connecting to MetaMask.",
+                timeout: 3000
+            }).show();
+        }
+      });
+    }
+
+    async function getSiweMessage(address) {
+        const domain = window.location.host;
+        const origin = window.location.origin;
+        const statement = "Sign in with Ethereum to IDenSafe.";
+        const version = '1';
+        const chain_id = '1';
+
+        let res = await fetch(`${BACKEND_ADDR_AUTH}/nonce/${address}`);
+        res = await res.json();
+        const nonce = res.nonce;
+
+        res = await fetch(`${BACKEND_ADDR_AUTH}/message/${address}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ domain, origin, statement, version, chain_id, nonce }),
+        });
+
+        res = await res.json();
+
+        return res.message;
+    }
+
+    async function signInWithEthereum() {
+        const signer = accounts[0];
+
+        message = await getSiweMessage(
+            signer,
+            "Sign in with Ethereum to BlogChain."
+        );
+        signature = await provider
+            .request({
+                method: "personal_sign",
+                params: [message, signer]
+            });
+    }
+
+    async function sendForVerification() {
+        const signer = accounts[0];
+
+        let res = await fetch(`${BACKEND_ADDR_AUTH}/verify/${signer}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message, signature }),
+        });
+        res = await res.json();
+
+        if (res.username) {
+            window.location.href = `/app`;
+        } else {
+            window.location.href = `/auth/username`;
+        }
+    }
+
+    async function login() {
+        await connectWallet();
+        await signInWithEthereum();
+        await sendForVerification();
+    }
+
+    async function logout() {
+        await provider
+            .request({
+                method: "wallet_revokePermissions",
+                params: [
+                    {
+                        eth_accounts: {},
+                    },
+                ],
+            });
+
+        window.location.href = `/auth/logout`;
+    }
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <script type="text/javascript">
+            {% for category, message in messages %}
+                new Noty({
+                    type: '{{ category }}',
+                    theme: 'bootstrap-v4',
+                    layout: 'topCenter',
+                    text: '{{ message }}',
+                    timeout: 3000
+                }).show();
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endwith %}
