@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from .database import create_session
 from .models import User
+from .database import create_session
 
 
 def get_user_by_address(address: str):
@@ -23,7 +23,9 @@ def get_user_by_username(username: str):
 def get_unverified_users():
     session = create_session()
     users = (
-        session.query(User).filter(User.verified == False, User.id_number != None).all()
+        session.query(User)
+        .filter(User.verified == False, User.id_number != None)
+        .all()
     )
     session.close()
 
@@ -181,7 +183,9 @@ def verify_info(
 
     elif not name and age and not location and not id_number:
         user = (
-            session.query(User).filter(User.address == address, User.age == age).first()
+            session.query(User)
+            .filter(User.address == address, User.age == age)
+            .first()
         )
 
     elif not name and not age and location and not id_number:
@@ -218,7 +222,9 @@ def verify_info(
         user = (
             session.query(User)
             .filter(
-                User.address == address, User.name == name, User.id_number == id_number
+                User.address == address,
+                User.name == name,
+                User.id_number == id_number,
             )
             .first()
         )
@@ -226,7 +232,9 @@ def verify_info(
     elif not name and age and location and not id_number:
         user = (
             session.query(User)
-            .filter(User.address == address, User.age == age, User.location == location)
+            .filter(
+                User.address == address, User.age == age, User.location == location
+            )
             .first()
         )
 

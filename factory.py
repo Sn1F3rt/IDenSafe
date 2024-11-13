@@ -1,13 +1,13 @@
 import click
+from web3 import Web3
 from flask import Flask, flash
+from flask_wtf import CSRFProtect
 from flask_cors import CORS
 from flask_login import LoginManager, current_user
-from flask_wtf import CSRFProtect
-from web3 import Web3
 
-from utils.crud import get_kyc_status, pending_notification, reset_kyc_status
-from utils.database import engine
+from utils.crud import get_kyc_status, reset_kyc_status, pending_notification
 from utils.models import Base
+from utils.database import engine
 
 csrf: CSRFProtect
 w3: Web3
@@ -38,15 +38,15 @@ def create_app() -> Flask:
 
         @login_manager.user_loader
         def load_user(address: str):
-            from utils.database import create_session
             from utils.models import User
+            from utils.database import create_session
 
             session = create_session()
             return session.query(User).filter(User.address == address).first()
 
         @login_manager.unauthorized_handler
         def _unauthorized():
-            from flask import flash, redirect, url_for
+            from flask import flash, url_for, redirect
 
             flash("You must be logged in to access this page.", "warning")
             return redirect(url_for("meta._index"))
@@ -72,8 +72,8 @@ def create_app() -> Flask:
         @app.cli.command("make_admin")
         @click.argument("username")
         def _make_admin(username: str):
-            from utils.database import create_session
             from utils.models import User
+            from utils.database import create_session
 
             session = create_session()
             user = session.query(User).filter(User.username == username).first()
@@ -90,8 +90,8 @@ def create_app() -> Flask:
         @app.cli.command("remove_admin")
         @click.argument("username")
         def _remove_admin(username: str):
-            from utils.database import create_session
             from utils.models import User
+            from utils.database import create_session
 
             session = create_session()
             user = session.query(User).filter(User.username == username).first()
@@ -107,7 +107,7 @@ def create_app() -> Flask:
 
         @app.before_request
         def check_username():
-            from flask import redirect, request, url_for
+            from flask import request, url_for, redirect
             from flask_login import current_user
 
             if request.endpoint in ["auth._username", "auth._logout", "static"]:
@@ -116,10 +116,10 @@ def create_app() -> Flask:
             if current_user.is_authenticated and not current_user.username:
                 return redirect(url_for("auth._username"))
 
-    from blueprints.admin import admin_bp
     from blueprints.app import app_bp
     from blueprints.auth import auth_bp
     from blueprints.meta import meta_bp
+    from blueprints.admin import admin_bp
 
     app.register_blueprint(admin_bp)
     app.register_blueprint(app_bp)

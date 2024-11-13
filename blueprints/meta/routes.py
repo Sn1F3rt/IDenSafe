@@ -1,7 +1,7 @@
-from flask import render_template, request
+from flask import request, render_template
 
 from factory import w3
-from utils.crud import check_allowed_attribute, get_user_by_address, verify_info
+from utils.crud import verify_info, get_user_by_address, check_allowed_attribute
 
 from . import meta_bp
 

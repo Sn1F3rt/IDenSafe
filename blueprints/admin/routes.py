@@ -1,13 +1,13 @@
 import io
 
-from flask import abort, flash, redirect, render_template, send_file, url_for
+from flask import abort, flash, url_for, redirect, send_file, render_template
 from flask_login import current_user, login_required
 
 from utils.crud import (
-    approve_user,
-    get_unverified_users,
-    get_user_by_address,
     reject_user,
+    approve_user,
+    get_user_by_address,
+    get_unverified_users,
 )
 
 from . import admin_bp

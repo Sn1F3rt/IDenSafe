@@ -1,22 +1,22 @@
 from datetime import UTC, datetime
 
-from flask import flash, jsonify, redirect, render_template, request, url_for
-from flask_login import current_user, login_required, login_user, logout_user
 from siwe import SiweMessage, generate_nonce
+from flask import flash, jsonify, request, url_for, redirect, render_template
+from flask_login import login_user, logout_user, current_user, login_required
 
 from factory import w3
 from utils.crud import (
-    activate_user,
     add_user,
-    check_username,
-    get_allowed_attributes,
-    get_user_by_address,
     revoke_kyc,
-    set_allowed_attributes,
+    activate_user,
+    check_username,
     update_kyc_info,
     update_username,
+    get_user_by_address,
+    get_allowed_attributes,
+    set_allowed_attributes,
 )
-from utils.forms import AllowedAttributesForm, KYCForm, UsernameForm
+from utils.forms import KYCForm, UsernameForm, AllowedAttributesForm
 
 from . import auth_bp
 
@@ -183,7 +183,9 @@ def _kyc():
             location = bool(int(allowed_data_form.location.data))
             id_number = bool(int(allowed_data_form.id_number.data))
 
-            set_allowed_attributes(current_user.address, name, age, location, id_number)
+            set_allowed_attributes(
+                current_user.address, name, age, location, id_number
+            )
 
             flash("Allowed attributes updated successfully.", "success")
             return redirect(url_for("auth._kyc"))

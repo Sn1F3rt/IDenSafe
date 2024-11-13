@@ -18,5 +18,18 @@ dependencies = [
 [tool.uv]
 dev-dependencies = [
     "pre-commit>=4.0.1",
-    "ruff>=0.7.3",
+    "ruff==0.7.0",
 ]
+
+[tool.ruff]
+line-length = 85
+target-version = "py312"
+
+[tool.ruff.lint.isort]
+section-order = ["future", "typing", "standard-library", "third-party", "first-party", "local-folder"]
+force-wrap-aliases = true
+combine-as-imports = true
+length-sort = true
+
+[tool.ruff.lint.isort.sections]
+"typing" = ["typing"]

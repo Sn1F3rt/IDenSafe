@@ -1,7 +1,7 @@
-from flask_wtf import FlaskForm, RecaptchaField
-from flask_wtf.file import FileAllowed, FileField, FileRequired
 from wtforms import RadioField, StringField
-from wtforms.validators import InputRequired, Length, ValidationError
+from flask_wtf import FlaskForm, RecaptchaField
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from wtforms.validators import Length, InputRequired, ValidationError
 
 
 def file_size_limit(max_size):
