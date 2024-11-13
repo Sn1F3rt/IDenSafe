@@ -26,10 +26,11 @@ line-length = 85
 target-version = "py312"
 
 [tool.ruff.lint.isort]
-section-order = ["future", "typing", "standard-library", "third-party", "first-party", "local-folder"]
+section-order = ["future", "typing", "standard-library", "third-party", "first-party", "local-folder", "config"]
 force-wrap-aliases = true
 combine-as-imports = true
 length-sort = true
 
 [tool.ruff.lint.isort.sections]
 "typing" = ["typing"]
+"config" = ["config"]
