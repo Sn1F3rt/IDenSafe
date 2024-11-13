@@ -1,4 +1,4 @@
-# IDenSafe - A Decentralized Identity Management Application
+# IDenSafe - Decentralized Identity Management Application
 
 [![ci/gh-actions/ruff](https://github.com/Sn1F3rt/IDenSafe/actions/workflows/ruff.yml/badge.svg)](https://github.com/Sn1F3rt/IDenSafe/actions/workflows/ruff.yml)
 [![License](https://img.shields.io/github/license/Sn1F3rt/BlogChain)](LICENSE)
