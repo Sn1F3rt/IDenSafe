@@ -15,6 +15,11 @@ dependencies = [
     "web3>=7.5.0",
 ]
 
+[project.optional-dependencies]
+prod = [
+    "gunicorn>=23.0.0",
+]
+
 [tool.uv]
 dev-dependencies = [
     "pre-commit>=4.0.1",
