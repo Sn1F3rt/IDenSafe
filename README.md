@@ -17,7 +17,7 @@
 
 ## About
 
-BlogChain is a proof-of-concept blockchain-based identity management system for KYC. It is built on the [Ethereum](https://ethereum.org/en/) blockchain. It implements the [Sign-In with Ethereum](https://login.xyz/) authentication protocol, natively in Python using the [siwe-py](https://pypi.org/project/siwe/) library. On the core, it is built using the [Flask](https://flask.palletsprojects.com/) web framework. Database management is done using [SQLAlchemy](https://www.sqlalchemy.org/). 
+IDenSafe is a proof-of-concept blockchain-based identity management system for KYC. It is built on the [Ethereum](https://ethereum.org/en/) blockchain. It implements the [Sign-In with Ethereum](https://login.xyz/) authentication protocol, natively in Python using the [siwe-py](https://pypi.org/project/siwe/) library. On the core, it is built using the [Flask](https://flask.palletsprojects.com/) web framework. Database management is done using [SQLAlchemy](https://www.sqlalchemy.org/). 
 
 It supports Ethereum based user authentication, setting username, verifying KYC and enabling attributes which can be requested.
 
