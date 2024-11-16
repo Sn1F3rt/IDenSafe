@@ -1,21 +1,27 @@
 env:
 	uv venv
 
-dev:
-	uv sync --all-extras
-
-prod:
-	uv sync --no-dev --extra prod
-
 activate:
 	source .venv/bin/activate
+
+install:
+	uv sync --no-dev --extra prod
+
+install-dev:
+	uv sync --all-extras
 
 format:
 	ruff check --select I --fix .
 	ruff format .
 
-run:
+debug:
 	flask --app launcher:app run --debug
+
+prod:
+	gunicorn --bind 0.0.0.0:5000 launcher:app
+
+prods:
+	gunicorn --bind 0.0.0.0:5000 launcher:app $(filter-out $@,$(MAKECMDGOALS))
 
 cmd:
 	flask --app launcher:app $(filter-out $@,$(MAKECMDGOALS))
@@ -23,5 +29,5 @@ cmd:
 %:
 	@:
 
-.PHONY: env dev prod activate format run cmd
-.DEFAULT_GOAL := run
+.PHONY: env activate install install-dev format debug prod prods cmd
+.DEFAULT_GOAL := debug

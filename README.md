@@ -63,7 +63,7 @@ It supports Ethereum based user authentication, setting username, verifying KYC 
    or if you have `make` installed
 
    ```shell
-   make prod
+   make install
    ```
 
 ## Configuration
@@ -79,14 +79,14 @@ Copy the [`config.example.py`](config.example.py) file to `config.py` and:
 ### Development
 
 ```shell
-uv run launcher.py # or make
+uv run launcher.py # or make debug
 ```
 
 or if you have `make` installed
 
 ```shell
 make activate
-make
+make debug
 ```
 
 The API server will be running at `http://localhost:5000`.
@@ -95,14 +95,14 @@ The API server will be running at `http://localhost:5000`.
 
 ```shell
 source .venv/bin/activate # or make activate
-gunicorn --bind 0.0.0.0:5000 launcher:app
+gunicorn --bind 0.0.0.0:5000 launcher:app # or make prod
 ```
 
 or if you want to enable SSL support
 
 ```shell
-source .venv/bin/activate
-gunicorn --certfile cert.pem --keyfile key.pem --bind 0.0.0.0:5000 launcher:app
+source .venv/bin/activate # or make activate
+gunicorn --bind 0.0.0.0:5000 launcher:app --certfile cert.pem --keyfile key.pem # or make prods --certfile cert.pem --keyfile key.pem
 ```
 
 The API server will be running at `http://localhost:5000`. The certificate and key files are required for SSL support.
