@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from siwe import SiweMessage, generate_nonce
+from siwe import SiweMessage, ISO8601Datetime, generate_nonce
 from flask import flash, jsonify, request, url_for, redirect, render_template
 from flask_login import login_user, logout_user, current_user, login_required
 
@@ -59,7 +59,7 @@ def _message(address: str):
         uri=origin,
         version=version,
         chain_id=chain_id,
-        issued_at=datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        issued_at=ISO8601Datetime(datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")),
         nonce=nonce,
     )
 
@@ -180,7 +180,7 @@ def _kyc():
                 current_user.address, name, age, location, id_number
             )
 
-            flash("Allowed attributes updated successfully.", "success")
+            flash("Enabled attributes updated successfully.", "success")
             return redirect(url_for("auth._kyc"))
 
         enabled_attributes = get_enabled_attributes(current_user.address)

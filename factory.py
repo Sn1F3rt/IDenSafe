@@ -37,7 +37,7 @@ def create_app() -> Flask:
     with app.app_context():
 
         @login_manager.user_loader
-        def load_user(address: str):
+        def _load_user(address: str):
             from utils.models import User
             from utils.database import create_session
 
@@ -106,7 +106,7 @@ def create_app() -> Flask:
             click.echo(f"User {username} is no longer an admin.")
 
         @app.before_request
-        def check_username():
+        def _check_username():
             from flask import request, url_for, redirect
             from flask_login import current_user
 
